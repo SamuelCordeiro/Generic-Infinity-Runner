@@ -21,7 +21,7 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         //Speed up
-        speed += 0000.10f;
+        speed += 000.10f;
         // moviment
         rigid.velocity = new Vector2(speed * Time.deltaTime, rigid.velocity.y);
         // jump
