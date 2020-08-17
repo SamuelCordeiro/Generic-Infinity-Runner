@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    public GameObject shine;
+    private SpriteRenderer sr;
     private Transform backPoint;
     // Start is called before the first frame update
     void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         backPoint = GameObject.Find("Back Point").GetComponent<Transform>();
     }
 
@@ -23,8 +26,11 @@ public class Coin : MonoBehaviour
     {
         if(collider.gameObject.tag == "Player")
         {
+            sr.enabled = false;
+            GetComponent<CircleCollider2D>().enabled = false;
+            shine.SetActive(true);
             GameController.current.AddCoinScore(1);
-            Destroy(gameObject);
+            Destroy(gameObject, 6f);
         }
     }
 }
