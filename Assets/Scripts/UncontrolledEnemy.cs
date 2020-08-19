@@ -50,6 +50,10 @@ public class UncontrolledEnemy : MonoBehaviour
             GetComponent<CircleCollider2D>().enabled = false;
             anin.SetTrigger("destroy");
             Destroy(gameObject, 0.6f);
-        }        
+        } 
+        if(collider.gameObject.layer == 8)
+        {
+            rideUp = true;
+        }       
     }
 }
