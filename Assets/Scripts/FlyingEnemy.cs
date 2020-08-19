@@ -32,6 +32,10 @@ public class FlyingEnemy : MonoBehaviour
             GetComponent<CircleCollider2D>().enabled = false;
             anin.SetTrigger("destroy");
             Destroy(gameObject, 0.6f);
+        }
+        if(collider.gameObject.layer == 8)
+        {
+            rigid.velocity = new Vector2(- speed, rigid.velocity.y + 1f);
         }        
     }
 }
