@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - Coin
   - BonusBullets
+  - GameOver
   layers:
   - Default
   - TransparentFX
