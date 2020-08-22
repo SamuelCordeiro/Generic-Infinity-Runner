@@ -18,23 +18,61 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
+    void Update()
+    {
+        
+    }
     void FixedUpdate()
     {
-        //Speed up
-        speed += 000.10f;
-        // moviment
+        transform.rotation = Quaternion.Euler(0,0,18);
+        Move();
+        jumpKey();
+        ShootKey();
+    }
+
+    private void Move()
+    {
         rigid.velocity = new Vector2(speed * Time.deltaTime, rigid.velocity.y);
-        // jump
+    }
+
+    private void jumpKey()
+    {
         if(Input.GetKey(KeyCode.Space) && !isJumping)
         {
-            rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+            rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
             isJumping = true;
             smoke.SetActive(true);
         }
-        //fire
+    }
+
+    public void JumpButton()
+    {
+        if(!isJumping)
+        {
+            rigid.velocity = new Vector2(rigid.velocity.x, jumpForce);
+            isJumping = true;
+            smoke.SetActive(true);
+        }
+    }
+
+    private void ShootKey()
+    {
         if(Input.GetKeyDown(KeyCode.Z))
         {
+            if(GameController.current.totalBullet > 0)
+            {
+                Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
+                GameController.current.SubBullets();
+            }
+        }
+    }
+
+    public void ShootButton()
+    {
+        if(GameController.current.totalBullet > 0)
+        {
             Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
+            GameController.current.SubBullets();
         }
     }
 
@@ -44,6 +82,21 @@ public class Player : MonoBehaviour
         {
             isJumping = false;
             smoke.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider) 
+    {
+        if(collider.gameObject.tag == "BonusBullets")
+        {
+            GameController.current.AddBullets(10);
+            Destroy(collider.gameObject);
+        }
+
+        if(collider.gameObject.tag == "Enemy" || collider.gameObject.tag == "GameOver")
+        {
+            Destroy(gameObject);
+            GameController.current.GameOver();
         }
     }
 }
