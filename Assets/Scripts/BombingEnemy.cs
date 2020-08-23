@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class BombingEnemy : MonoBehaviour
 {
-    private Transform backPoint;
+    //private Transform backPoint;
     private Rigidbody2D rigid;
     private Animator anin;
     public float speed;
     // Start is called before the first frame update
     void Start()
     {
-        backPoint = GameObject.Find("Back Point").GetComponent<Transform>();
+        //backPoint = GameObject.Find("Back Point").GetComponent<Transform>();
         rigid = GetComponent<Rigidbody2D>();
         anin = GetComponent<Animator>();        
     }
@@ -20,22 +20,28 @@ public class BombingEnemy : MonoBehaviour
     void Update()
     {
         rigid.velocity = new Vector2(- speed, rigid.velocity.y);
-        if(transform.position.x < backPoint.position.x)
+        /*if(transform.position.x < backPoint.position.x)
         {
             Destroy(gameObject);
-        }
+        }*/
     }
-    private void OnTriggerEnter2D(Collider2D collider) 
+    private void OnCollisionEnter2D(Collision2D collision) 
     {
-        if(collider.gameObject.tag == "Bullet")
+        if(collision.gameObject.tag == "Bullet")
         {
             GetComponent<CapsuleCollider2D>().enabled = false;
             anin.SetTrigger("destroy");
+            Destroy(collision.gameObject);
             Destroy(gameObject, 0.6f);
         }
-        if(collider.gameObject.layer == 8)
+        if(collision.gameObject.tag == "Player")
         {
-            rigid.constraints = RigidbodyConstraints2D.FreezePositionY;
+            GetComponent<CapsuleCollider2D>().enabled = false;
+            anin.SetTrigger("destroy");
+            Destroy(collision.gameObject);
+            Destroy(gameObject, 0.6f);
+            GameController.current.GameOver();
+
         }
     }
 }
