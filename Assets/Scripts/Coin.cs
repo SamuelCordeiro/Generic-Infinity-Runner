@@ -6,21 +6,21 @@ public class Coin : MonoBehaviour
 {
     public GameObject shine;
     private SpriteRenderer sr;
-    private Transform backPoint;
+    //private Transform backPoint;
     // Start is called before the first frame update
     void Start()
     {
         sr = GetComponent<SpriteRenderer>();
-        backPoint = GameObject.Find("Back Point").GetComponent<Transform>();
+        //backPoint = GameObject.Find("Back Point").GetComponent<Transform>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(transform.position.x < backPoint.position.x)
+        /*if(transform.position.x < backPoint.position.x)
         {
             Destroy(gameObject);
-        }
+        }*/
     }
     private void OnTriggerEnter2D(Collider2D collider) 
     {
