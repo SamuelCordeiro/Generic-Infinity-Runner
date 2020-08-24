@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     public float speed;
     public float jumpForce;
+    private float bulletCooldown;
     private bool isJumping;
     private Rigidbody2D rigid;
     public GameObject smoke;
@@ -24,10 +25,18 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
-        transform.rotation = Quaternion.Euler(0,0,18);
+        bulletCooldown += Time.deltaTime;
         Move();
         jumpKey();
         ShootKey();
+        if(isJumping)
+        {
+            transform.rotation = Quaternion.Euler(0,0,-100 * Time.deltaTime);
+        }
+        else
+        {
+            transform.rotation = Quaternion.Euler(0,0,0);
+        }
     }
 
     private void Move()
@@ -57,22 +66,24 @@ public class Player : MonoBehaviour
 
     private void ShootKey()
     {
-        if(Input.GetKeyDown(KeyCode.Z))
+        if(Input.GetKey(KeyCode.Z))
         {
-            if(GameController.current.totalBullet > 0)
+            if(GameController.current.totalBullet > 0 && bulletCooldown > 0.3f)
             {
                 Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
                 GameController.current.SubBullets();
+                bulletCooldown = 0f;
             }
         }
     }
 
     public void ShootButton()
     {
-        if(GameController.current.totalBullet > 0)
+        if(GameController.current.totalBullet > 0 && bulletCooldown > 0.3f)
         {
             Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
             GameController.current.SubBullets();
+            bulletCooldown = 0f;
         }
     }
 
@@ -83,6 +94,11 @@ public class Player : MonoBehaviour
             isJumping = false;
             smoke.SetActive(false);
         }
+        if(collision.gameObject.tag == "Bullet")
+        {
+            Destroy(gameObject);
+            GameController.current.GameOver();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider) 
@@ -92,8 +108,7 @@ public class Player : MonoBehaviour
             GameController.current.AddBullets(10);
             Destroy(collider.gameObject);
         }
-
-        if(collider.gameObject.tag == "Enemy" || collider.gameObject.tag == "GameOver")
+        if(collider.gameObject.tag == "GameOver")
         {
             Destroy(gameObject);
             GameController.current.GameOver();
