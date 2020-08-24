@@ -23,6 +23,10 @@ public class BackPoint : MonoBehaviour
         {
             Destroy(collision.gameObject, 5f);
         }
+        if(collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "Bullet")
+        {
+            Destroy(collision.gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider) 
