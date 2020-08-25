@@ -1,36 +1,32 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlatformGeneration : MonoBehaviour
 {
-    public GameObject platform;
-    public Transform point;
+    private Platform Platform;
+    public List<GameObject> Platforms = new List<GameObject>();
     public float minDistance;
     public float maxDistance;
-    private float platformWidth;
+    public Platform FirstPlatform;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        if(platform.GetComponent<BoxCollider2D>())
-        {
-            platformWidth = platform.GetComponent<BoxCollider2D>().size.x;
-        }
-        else
-        {
-            platformWidth = platform.GetComponent<PolygonCollider2D>().bounds.size.x;
-        }
-    }
 
-    // Update is called once per frame
-    void Update()
+    void Update () 
     {
-        if(transform.position.x < point.position.x)
+        if(GameController.current.isPlayerAlive)
         {
-            float distance = Random.Range(minDistance, maxDistance);
-            transform.position = new Vector3(transform.position.x + platformWidth + distance, transform.position.y, transform.position.z);
-            Instantiate(platform, transform.position, transform.rotation);
+            if(FirstPlatform.xObject != null)
+            {
+                Platform = FirstPlatform;
+            }
+            if(transform.position.x >= Platform.xObject.transform.position.x)
+            {
+                Destroy(Platform.xObject.gameObject);
+                
+                Platform = Instantiate(Platforms[Random.Range(0, Platforms.Count)], 
+                transform.position + new Vector3(Random.Range(minDistance, maxDistance) , 0f, 0f), 
+                transform.rotation).GetComponent<Platform>();        
+            } 
         }
     }
 }
