@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class UncontrolledEnemy : MonoBehaviour
 {
-    private Transform backPoint;
+    private bool rideUp;
     private Rigidbody2D rigid;
     private Animator anin;
     public float speedX;
     public float speedY;
-    // Start is called before the first frame update
+
     void Start()
     {
-        backPoint = GameObject.Find("Back Point").GetComponent<Transform>();
         rigid = GetComponent<Rigidbody2D>();
         anin = GetComponent<Animator>();        
     }
-    private bool rideUp;
-    // Update is called once per frame
     void Update()
     {   
         if(transform.position.y >= 2f)
@@ -35,12 +32,7 @@ public class UncontrolledEnemy : MonoBehaviour
         else
         {
             rigid.velocity = new Vector2(- speedX, - speedY);
-        } 
-
-        if(transform.position.x < backPoint.position.x)
-        {
-            Destroy(gameObject);
-        }      
+        }     
     }
 
     private void OnTriggerEnter2D(Collider2D collider) 
@@ -49,8 +41,17 @@ public class UncontrolledEnemy : MonoBehaviour
         {
             GetComponent<CircleCollider2D>().enabled = false;
             anin.SetTrigger("destroy");
+            Destroy(collider.gameObject);
             Destroy(gameObject, 0.6f);
         } 
+        if(collider.gameObject.tag == "Player")
+        {
+            GetComponent<CircleCollider2D>().enabled = false;
+            anin.SetTrigger("destroy");
+            Destroy(collider.gameObject);
+            Destroy(gameObject, 0.6f);
+            GameController.current.GameOver();
+        }
         if(collider.gameObject.layer == 8)
         {
             rideUp = true;
