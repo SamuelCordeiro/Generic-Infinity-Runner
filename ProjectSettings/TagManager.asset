@@ -5,10 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bullet
-  - Enemy
   - Coin
   - BonusBullets
   - GameOver
+  - SkyEnemy
+  - GroundEnemy
+  - Boss
   layers:
   - Default
   - TransparentFX
