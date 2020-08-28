@@ -12,16 +12,10 @@ public class Player : MonoBehaviour
     public GameObject smoke;
     public GameObject bullet;
     public Transform firePoint;
-    // Start is called before the first frame update
+
     void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
     void FixedUpdate()
     {
@@ -105,7 +99,7 @@ public class Player : MonoBehaviour
     {
         if(collider.gameObject.tag == "BonusBullets")
         {
-            GameController.current.AddBullets(10);
+            GameController.current.AddBullets(5);
             Destroy(collider.gameObject);
         }
         if(collider.gameObject.tag == "GameOver")
