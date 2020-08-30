@@ -11,6 +11,7 @@ TagManager:
   - SkyEnemy
   - GroundEnemy
   - Boss
+  - BossBullet
   layers:
   - Default
   - TransparentFX
