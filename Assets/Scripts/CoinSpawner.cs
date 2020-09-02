@@ -9,16 +9,9 @@ public class CoinSpawner : MonoBehaviour
     public float minTime;
     public float maxTime;
     private float timeControl;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
-        //Spawnar coins
         timeControl += Time.deltaTime;
         if(timeControl >= initialTime)
         {
