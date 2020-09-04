@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
             isJumping = false;
             smoke.SetActive(false);
         }
-        if(collision.gameObject.tag == "Bullet")
+        if(collision.gameObject.tag == "Bullet" || collision.gameObject.tag == "BossBullet")
         {
             Destroy(gameObject);
             GameController.current.GameOver();
