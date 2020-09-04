@@ -39,7 +39,7 @@ public class FlyingEnemy : MonoBehaviour
     {
         if(collider.gameObject.layer == 8)
         {
-            rigid.velocity = new Vector2(rigid.velocity.x , rigid.velocity.y + 50f);
+            rigid.velocity = new Vector2(rigid.velocity.x , rigid.velocity.y * 150f);
         }        
     }
 }
