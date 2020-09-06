@@ -74,9 +74,9 @@ public class PlayerClone : MonoBehaviour
         } 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision) 
+    private void OnTriggerEnter2D(Collider2D collider) 
     {
-        if(collision.gameObject.tag == "Bullet")
+        if(collider.gameObject.tag == "Bullet")
         {
             if(life > 0)
             {
@@ -87,34 +87,19 @@ public class PlayerClone : MonoBehaviour
                 GetComponent<CapsuleCollider2D>().enabled = false;
                 smoke.SetActive(false);
                 anin.SetTrigger("destroy");
-                Destroy(collision.gameObject);
+                Destroy(collider.gameObject);
                 Destroy(gameObject, 0.6f);
             }
-        } 
-        if(collision.gameObject.tag == "Player")
-        {
-            GetComponent<CapsuleCollider2D>().enabled = false;
-            anin.SetTrigger("destroy");
-            Destroy(collision.gameObject);
-            Destroy(gameObject, 0.6f);
-            GameController.current.GameOver();
-        }
-        // if(collision.gameObject.layer == 8)
-        // {
-        //     rideUp = true;
-        //     //rigid.velocity = new Vector2(rigid.velocity.x , rigid.velocity.y + 50f);
-        // }        
-    }
-    private void OnCollisionStay2D(Collision2D collision) 
-    {
-        if(collision.gameObject.layer == 8)
-        {
-            rideUp = true;
-            rigid.velocity = new Vector2(rigid.velocity.x , rigid.velocity.y * 1000f);
-        }
+        }     
     }
     private void OnTriggerStay2D(Collider2D collider) 
     {
+        if(collider.gameObject.layer == 8)
+        {
+            rideUp = true;
+            rigid.velocity = new Vector2(rigid.velocity.x , rigid.velocity.y + 50f);
+            smoke.SetActive(false);
+        }
         if(collider.gameObject.tag == "Player")
         {
             fire = true;
@@ -123,10 +108,13 @@ public class PlayerClone : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider) 
     {
+        if(collider.gameObject.layer == 8)
+        {
+            smoke.SetActive(false);
+        }
         if(collider.gameObject.tag == "Player")
         {
             fire = false;
         }
-        
     }
 }
