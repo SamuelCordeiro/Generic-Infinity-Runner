@@ -7,6 +7,7 @@ public class FlyingEnemy : MonoBehaviour
     private Rigidbody2D rigid;
     private Animator anin;
     public float speed;
+    private bool rideUp;
     
     void Start()
     {
@@ -16,7 +17,19 @@ public class FlyingEnemy : MonoBehaviour
 
     void Update()
     {
-        rigid.velocity = new Vector2(- speed, 0.3f);
+        Movement();
+    }
+
+    private void Movement()
+    {
+        if(rideUp)
+        {
+            rigid.velocity = new Vector2(- speed, 1f);
+        }
+        else
+        {
+            rigid.velocity = new Vector2(- speed, 0f);
+        }
     }
     private void OnTriggerEnter2D(Collider2D collider) 
     {
@@ -39,7 +52,15 @@ public class FlyingEnemy : MonoBehaviour
     {
         if(collider.gameObject.layer == 8)
         {
-            rigid.velocity = new Vector2(rigid.velocity.x , rigid.velocity.y * 150f);
+            rideUp = true;
         }        
+    }
+
+    private void OnTriggerExit2D(Collider2D collider) 
+    {
+        if(collider.gameObject.layer == 8)
+        {
+            rideUp = false;
+        } 
     }
 }
