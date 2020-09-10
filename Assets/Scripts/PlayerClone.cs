@@ -57,7 +57,7 @@ public class PlayerClone : MonoBehaviour
         } 
         if(rideUp)
         {
-            rigid.velocity = new Vector2(speedX, speedY);
+            rigid.velocity = new Vector2(speedX, speedY * 3f);
         }
         else
         {
@@ -67,11 +67,15 @@ public class PlayerClone : MonoBehaviour
     private void Fire()
     {
         bulletCooldown += Time.deltaTime;
-        if(fire && bulletCooldown > 2f)
+        if(fire && bulletCooldown > 1f)
         {
             Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
             bulletCooldown = 0f;
-        } 
+        }
+        else
+        {
+            bulletCooldown = 0.9f;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collider) 
@@ -97,7 +101,6 @@ public class PlayerClone : MonoBehaviour
         if(collider.gameObject.layer == 8)
         {
             rideUp = true;
-            rigid.velocity = new Vector2(rigid.velocity.x , rigid.velocity.y + 50f);
             smoke.SetActive(false);
         }
         if(collider.gameObject.tag == "Player")
@@ -110,7 +113,7 @@ public class PlayerClone : MonoBehaviour
     {
         if(collider.gameObject.layer == 8)
         {
-            smoke.SetActive(false);
+            smoke.SetActive(true);
         }
         if(collider.gameObject.tag == "Player")
         {
