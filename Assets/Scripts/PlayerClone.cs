@@ -69,13 +69,16 @@ public class PlayerClone : MonoBehaviour
         bulletCooldown += Time.deltaTime;
         if(fire && bulletCooldown > 1f)
         {
-            Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
+            StartCoroutine("InstantiateBullets");
+            //Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
             bulletCooldown = 0f;
         }
-        else
-        {
-            bulletCooldown = 0.9f;
-        }
+    }
+
+    IEnumerator InstantiateBullets()
+    {
+        yield return new WaitForSeconds(0.5f);
+        Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
     }
 
     private void OnTriggerEnter2D(Collider2D collider) 
