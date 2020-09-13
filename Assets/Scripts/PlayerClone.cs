@@ -70,11 +70,9 @@ public class PlayerClone : MonoBehaviour
         if(fire && bulletCooldown > 1f)
         {
             StartCoroutine("InstantiateBullets");
-            //Instantiate(bullet, firePoint.transform.position, firePoint.transform.rotation);
             bulletCooldown = 0f;
         }
     }
-
     IEnumerator InstantiateBullets()
     {
         yield return new WaitForSeconds(0.5f);
@@ -104,6 +102,7 @@ public class PlayerClone : MonoBehaviour
         if(collider.gameObject.layer == 8)
         {
             rideUp = true;
+            speedY = 5f;
             smoke.SetActive(false);
         }
         if(collider.gameObject.tag == "Player")
@@ -116,6 +115,7 @@ public class PlayerClone : MonoBehaviour
     {
         if(collider.gameObject.layer == 8)
         {
+            speedY = 0.5f;
             smoke.SetActive(true);
         }
         if(collider.gameObject.tag == "Player")
