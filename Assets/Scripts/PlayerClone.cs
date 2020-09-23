@@ -19,6 +19,7 @@ public class PlayerClone : MonoBehaviour
     private GameObject player;
     void Start()
     {
+        transform.Rotate(0f, 180f, 0f);
         life = 2;
         fire = false;
         speedX = 0f;
